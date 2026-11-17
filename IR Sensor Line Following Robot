@@ -1,0 +1,65 @@
+int Sensor1, Sensor2, Sensor3, Sensor4;
+
+#define ENA 3
+#define ENB 5
+#define IN1 4
+#define IN2 6
+#define IN3 7
+#define IN4 12
+
+pinMode(8, INPUT);
+pinMode(9, INPUT);
+pinMode(10, INPUT);
+pinMode(11, INPUT);
+
+pinMode(ENA, OUTPUT);
+pinMode(ENB, OUTPUT);
+pinMode(IN1, OUTPUT);
+pinMode(IN2, OUTPUT);
+pinMode(IN3, OUTPUT);
+pinMode(IN4, OUTPUT);
+
+Serial.begin(9600);
+
+void loop() {
+  Sensor1 = digitalRead(8);
+  Sensor2 = digitalRead(9);
+  Sensor3 = digitalRead(10);
+  Sensor4 = digitalRead(11);
+
+if ((Sensor4 == HIGH || Sensor3 == HIGH) &&
+    (Sensor2 == LOW  || Sensor1 == LOW)) {
+analogWrite(ENA, 150);
+analogWrite(ENB, 150);
+digitalWrite(IN1, HIGH);
+digitalWrite(IN2, LOW);
+digitalWrite(IN3, HIGH);
+digitalWrite(IN4, LOW);
+Serial.println("left");
+}
+
+else if ((Sensor4 == LOW || Sensor3 == LOW) &&
+         (Sensor2 == HIGH || Sensor1 == HIGH)) {
+analogWrite(ENA, 150);
+analogWrite(ENB, 150);
+
+digitalWrite(IN1, LOW);
+digitalWrite(IN2, HIGH);
+digitalWrite(IN3, LOW);
+digitalWrite(IN4, HIGH);
+
+Serial.println("right");
+}
+
+else if (Sensor4 == LOW && Sensor3 == LOW &&
+         Sensor2 == LOW && Sensor1 == LOW) {
+analogWrite(ENA, 150);
+analogWrite(ENB, 150);
+
+digitalWrite(IN1, LOW);
+digitalWrite(IN2, HIGH);
+digitalWrite(IN3, LOW);
+digitalWrite(IN4, HIGH);
+
+Serial.println("stop or line lost");
+}
