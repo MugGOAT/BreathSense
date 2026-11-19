@@ -1,0 +1,25 @@
+import os
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+# Reading axial CT scan
+# Check for noisy image
+os.chdir(r"F:\MIT-BIO\Medical Imaging\(3) Practical\Practical\Images")
+image = cv2.imread('CT chest.jpg', 0)
+print(image, image.dtype, image.shape)
+kernel = np.ones((5, 5)) / 25
+convImage = cv2.filter2D(image, -1, kernel)
+blur = cv2.blur(image, (3, 3))
+gaussian = cv2.GaussianBlur(image, (37, 37), 0)
+median = cv2.medianBlur(image, 5)
+
+# Display images
+titles = ['Original Image', 'Convolved Image', 'Blur', 'Gaussian Blur', 'Median Blur
+outputs = [image, convImage, blur, gaussian, median]
+plt.figure(figsize=(15, 10), dpi=80)
+for i in range(5):
+ plt.subplot(2, 3, i + 1)
+ plt.imshow(outputs[i], cmap='gray')
+ plt.title(titles[i])
+plt.tight_layout()
+plt.show()
